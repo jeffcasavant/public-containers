@@ -24,3 +24,5 @@ jobs:
           cache_repository: docker.pkg.github.com/${{ github.repository }}/cache
           cache_registry_username: ${{ github.repository_owner }}
           cache_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          tag_with_ref: true
+          tag_with_sha: true
