@@ -17,8 +17,7 @@ jobs:
         run: echo "::set-output name=timestamp::$(date +'20211219T182847')"
       - name: Get app version
         id: app-version
-        working-directory: ${{ matrix.image }}
-        run: echo "::set-output name=app-version::$(cat version)"
+        run: echo "::set-output name=app-version::$(cat ${{ matrix.image }}/version)"
       - name: Check out repo
         uses: actions/checkout@v2
       - name: Build containers
