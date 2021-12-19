@@ -1,0 +1,26 @@
+---
+name: Build all containers
+
+on:
+  - push
+
+jobs:
+  container-builder:
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [mx-puppet-discord]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Build containers
+        uses: snapserv/action-container-build@master
+        with:
+          build_context: ${{ matrix.image }}
+          target_repository: jeffcasavant/${{ matrix.image }}
+          target_registry_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          target_registry_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+          cache_repository: docker.pkg.github.com/${{ github.repository }}/cache
+          cache_registry_username: ${{ github.repository_owner }}
+          cache_registry_password: ${{ secrets.GITHUB_TOKEN }}
