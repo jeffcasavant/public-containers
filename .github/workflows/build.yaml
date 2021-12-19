@@ -15,7 +15,7 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v2
       - name: Build containers
-        uses: snapserv/action-container-build@master
+        uses: snapserv/action-container-builder@master
         with:
           build_context: ${{ matrix.image }}
           target_repository: jeffcasavant/${{ matrix.image }}
