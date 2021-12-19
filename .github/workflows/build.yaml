@@ -2,7 +2,9 @@
 name: Build all containers
 
 on:
-  - push
+  push:
+    branches:
+      - master
 
 jobs:
   container-builder:
@@ -12,9 +14,16 @@ jobs:
         image: [mx-puppet-discord]
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          all_but_latest: true
+          access_token: ${{ github.token }}
       - name: Get timestamp
         id: timestamp
         run: echo "::set-output name=timestamp::$(date +'20211219T182847')"
+      - name: Test
+        run: ls
       - name: Get app version
         id: app-version
         run: echo "::set-output name=app-version::$(cat ${{ matrix.image }}/version)"
