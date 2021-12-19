@@ -22,13 +22,11 @@ jobs:
       - name: Get timestamp
         id: timestamp
         run: echo "::set-output name=timestamp::$(date +'20211219T182847')"
-      - name: Test
-        run: ls
+      - name: Check out repo
+        uses: actions/checkout@v2
       - name: Get app version
         id: app-version
         run: echo "::set-output name=app-version::$(cat ${{ matrix.image }}/version)"
-      - name: Check out repo
-        uses: actions/checkout@v2
       - name: Build containers
         uses: snapserv/action-container-builder@master
         with:
