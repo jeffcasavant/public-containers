@@ -12,6 +12,13 @@ jobs:
         image: [mx-puppet-discord]
     runs-on: ubuntu-latest
     steps:
+      - name: Get timestamp
+        id: timestamp
+        run: echo "::set-output name=timestamp::$(date +'20211219T182847')"
+      - name: Get app version
+        id: app-version
+        working-directory: ${{ matrix.image }}
+        run: echo "::set-output name=app-version::$(cat version)"
       - name: Check out repo
         uses: actions/checkout@v2
       - name: Build containers
@@ -25,4 +32,4 @@ jobs:
           cache_registry_username: ${{ github.repository_owner }}
           cache_registry_password: ${{ secrets.GITHUB_TOKEN }}
           tag_with_ref: true
-          tag_with_sha: true
+          tags: ${{ steps.app-version.outputs.app-version }}-${{ steps.timestamp.outputs.timestamp }}

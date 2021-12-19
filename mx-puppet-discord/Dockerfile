@@ -6,6 +6,11 @@ RUN apt-get -y install git
 ARG REPO=https://github.com/matrix-discord/mx-puppet-discord.git
 RUN git clone $REPO /app
 
+WORKDIR /app
+
+COPY version /version
+RUN git checkout $(cat /version)
+
 ##
 
 FROM node:14-bullseye AS install
