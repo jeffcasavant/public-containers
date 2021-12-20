@@ -30,6 +30,7 @@ WORKDIR /app
 
 RUN pipx install .[postgres]
 RUN pipx inject matrix-registration flask-limiter==2.0.0
+RUN pipx inject matrix-registration requests
 
 ENTRYPOINT ["/root/.local/bin/matrix-registration"]
 CMD ["serve"]
