@@ -15,6 +15,7 @@ jobs:
       matrix:
         image:
           - matrix-discord-mx-puppet-discord
+          - robintown-mx-puppet-groupme
           - sorunome-mx-puppet-slack
     runs-on: ubuntu-latest
     steps:
