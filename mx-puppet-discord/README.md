@@ -3,4 +3,4 @@
 You will need to inject the following files:
 
 * /app/config.yaml (duplicate and customize [their example config](https://github.com/matrix-discord/mx-puppet-discord/blob/master/sample.config.yaml))
-* /app/discord-registration.yaml (probably best to have the app generate it)
+* /app/discord-registration.yaml (probably best to have the app generate it - see the [project's README](https://github.com/matrix-discord/mx-puppet-discord#setup))
