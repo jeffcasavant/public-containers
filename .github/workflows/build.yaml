@@ -49,4 +49,5 @@ jobs:
           push: true
           tags: |
             jeffcasavant/${{ matrix.image }}:latest
+            jeffcasavant/${{ matrix.image }}:${{ steps.app-version.outputs.app-version }}
             jeffcasavant/${{ matrix.image }}:${{ steps.app-version.outputs.app-version }}-${{ steps.timestamp.outputs.timestamp }}
