@@ -1,3 +1,18 @@
+FROM debian:bullseye AS download
+
+RUN apt-get update
+RUN apt-get -y install git
+
+ARG REPO=https://github.com/zeratax/matrix-registration.git
+RUN git clone $REPO /app
+
+WORKDIR /app
+
+COPY version /version
+RUN git checkout $(cat /version)
+
+##
+
 FROM python:3.7-slim-bullseye AS final
 
 RUN apt-get update && \
@@ -8,10 +23,12 @@ RUN apt-get update && \
 RUN pip install -U pip setuptools wheel
 RUN pip install pipx
 
-COPY version /version
+COPY --from=download /app /app
+COPY --from=download /version /version
 
-RUN pipx install matrix-registration[postgres]==$(cat /version)
+WORKDIR /app
 
+RUN pipx install .[postgres]
 RUN pipx inject matrix-registration flask-limiter==2.0.0
 
 ENTRYPOINT ["/root/.local/bin/matrix-registration"]
