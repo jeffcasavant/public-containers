@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@6eefb174e94bfdeb1cb1caf0a0de19a7634a80d0
         with:
           all_but_latest: true
           access_token: ${{ github.token }}
@@ -30,7 +30,7 @@ jobs:
         id: app-version
         run: echo "::set-output name=app-version::$(cat ${{ matrix.image }}/version)"
       - name: Build containers
-        uses: snapserv/action-container-builder@master
+        uses: snapserv/action-container-builder@50e82f7b83806e831822bd826d5033bf6c86675a
         with:
           build_context: ${{ matrix.image }}
           target_repository: jeffcasavant/${{ matrix.image }}
