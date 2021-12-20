@@ -8,7 +8,9 @@ RUN apt-get update && \
 RUN pip install -U pip setuptools wheel
 RUN pip install pipx
 
-RUN pipx install matrix-registration[postgres]
+COPY version /version
+
+RUN pipx install matrix-registration[postgres]==$(cat /version)
 
 RUN pipx runpip matrix-registration install flask-limiter==2.0.0
 
