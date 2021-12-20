@@ -29,7 +29,6 @@ WORKDIR /app
 
 RUN pip install .[postgres]
 RUN pip install flask-limiter==2.0.0
-RUN pip install -U alembic
 
 ENTRYPOINT ["/root/.local/bin/matrix-registration"]
 CMD ["serve"]
