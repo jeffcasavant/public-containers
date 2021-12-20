@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - mx-puppet-discord
-          - mx-puppet-slack
+          - matrix-discord-mx-puppet-discord
+          - sorunome-mx-puppet-slack
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
