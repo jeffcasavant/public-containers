@@ -21,16 +21,14 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install -U pip setuptools wheel
-RUN pip install pipx
 
 COPY --from=download /app /app
 COPY --from=download /version /version
 
 WORKDIR /app
 
-RUN pipx install .[postgres]
-RUN pipx inject matrix-registration flask-limiter==2.0.0
-RUN pipx inject matrix-registration requests
+RUN pip install .[postgres]
+RUN pip install flask-limiter==2.0.0
 
 ENTRYPOINT ["/root/.local/bin/matrix-registration"]
 CMD ["serve"]
