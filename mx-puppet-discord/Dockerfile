@@ -25,6 +25,11 @@ RUN npm install
 
 FROM node:14-bullseye-slim AS final
 
+RUN apt-get update && \
+    apt-get -y dist-upgrade && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY --from=install /app /app
 
 WORKDIR /app
