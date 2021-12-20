@@ -12,5 +12,7 @@ COPY version /version
 
 RUN pipx install matrix-registration[postgres]==$(cat /version)
 
+RUN pipx inject matrix-registration flask-limiter==2.0.0
+
 ENTRYPOINT ["/root/.local/bin/matrix-registration"]
 CMD ["serve"]
