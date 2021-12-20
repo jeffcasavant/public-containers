@@ -16,6 +16,7 @@ jobs:
         image:
           - matrix-discord-mx-puppet-discord
           - sorunome-mx-puppet-slack
+          - zeratax-matrix-registration
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
