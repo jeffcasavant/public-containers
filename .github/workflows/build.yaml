@@ -23,7 +23,7 @@ jobs:
           access_token: ${{ github.token }}
       - name: Get timestamp
         id: timestamp
-        run: echo "::set-output name=timestamp::$(date +'20211219T182847')"
+        run: echo "::set-output name=timestamp::$(date +'%Y%m%dT%H%M%S')"
       - name: Check out repo
         uses: actions/checkout@v2
       - name: Get app version
