@@ -1,5 +1,7 @@
 FROM debian:bullseye AS download
 
+MAINTAINER jeff@casavant.org
+
 RUN apt-get update
 RUN apt-get -y install git
 
