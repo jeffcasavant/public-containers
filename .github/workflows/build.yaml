@@ -17,6 +17,7 @@ jobs:
           - matrix-discord-mx-puppet-discord
           - robintown-mx-puppet-groupme
           - sorunome-mx-puppet-slack
+          - wesr-halcyon
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
