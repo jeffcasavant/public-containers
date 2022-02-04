@@ -18,6 +18,7 @@ jobs:
           - robintown-mx-puppet-groupme
           - sorunome-mx-puppet-slack
           - wesr-halcyon
+          - wesr-halcyon-stock-bot
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs

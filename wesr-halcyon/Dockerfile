@@ -1,5 +1,7 @@
 FROM python:3.10-slim-bullseye AS final
 
+MAINTAINER jeff@casavant.org
+
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get clean && \
