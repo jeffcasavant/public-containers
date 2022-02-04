@@ -22,7 +22,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=install /app /app
+COPY --from=download /app /app
 
 WORKDIR /app
 
