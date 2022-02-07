@@ -15,7 +15,7 @@ RUN git checkout $(cat /version)
 
 ##
 
-FROM jeffcasavant/wesr-halcyon AS final
+FROM python:3.10-slim-bullseye AS final
 
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
