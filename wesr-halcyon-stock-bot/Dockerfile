@@ -22,6 +22,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN pip install -U pip setuptools wheel
+RUN pip install -U "halcyon>=1.1.1"
+
 COPY --from=download /app /app
 
 WORKDIR /app
