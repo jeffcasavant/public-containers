@@ -5,7 +5,7 @@ MAINTAINER jeff@casavant.org
 RUN apt-get update
 RUN apt-get -y install git
 
-ARG REPO=https://github.com/sorunome/mx-puppet-slack.git
+ARG REPO=https://github.com/t2bot/trivia-bot.git
 RUN git clone $REPO /app
 
 WORKDIR /app
@@ -38,5 +38,5 @@ COPY --from=install /app /app
 
 WORKDIR /app
 
-ENTRYPOINT ["npm", "run"]
-CMD ["start"]
+ENTRYPOINT ["node"]
+CMD ["lib/index.js"]

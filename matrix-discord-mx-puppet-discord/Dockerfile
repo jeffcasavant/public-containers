@@ -27,6 +27,8 @@ RUN npm install
 
 FROM node:14-bullseye-slim AS final
 
+ENV NODE_ENV=production
+
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get clean && \
