@@ -21,8 +21,8 @@ COPY --from=download /app /app
 
 WORKDIR /app
 
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn run build
 
 ##
 
