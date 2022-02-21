@@ -39,4 +39,4 @@ COPY --from=install /app /app
 WORKDIR /app
 
 ENTRYPOINT ["node"]
-CMD ["src/index.js"]
+CMD ["src/index.ts"]
