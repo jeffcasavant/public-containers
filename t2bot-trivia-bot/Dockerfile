@@ -22,6 +22,7 @@ COPY --from=download /app /app
 WORKDIR /app
 
 RUN npm install
+RUN npm run build
 
 ##
 
@@ -39,4 +40,4 @@ COPY --from=install /app /app
 WORKDIR /app
 
 ENTRYPOINT ["node"]
-CMD ["src/index.ts"]
+CMD ["lib/index.js"]
