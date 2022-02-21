@@ -21,7 +21,14 @@ COPY --from=download /app /app
 
 WORKDIR /app
 
+RUN apt-get update
+RUN apt-get -y install jq
+
+RUN cat package.json | jq 'del(.dependencies."better-discord.js")' > package.json.tmp && mv package.json.tmp package.json
+RUN rm package-lock.json
+
 RUN npm install
+RUN npm install "https://github.com/Sorunome/better-discord.js.git"
 
 ##
 
