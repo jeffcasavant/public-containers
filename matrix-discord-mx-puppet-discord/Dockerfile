@@ -21,6 +21,7 @@ COPY --from=download /app /app
 
 WORKDIR /app
 
+RUN mkdir ~/.ssh
 RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 RUN npm install
