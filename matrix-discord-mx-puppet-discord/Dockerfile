@@ -21,8 +21,7 @@ COPY --from=download /app /app
 
 WORKDIR /app
 
-RUN mkdir ~/.ssh
-RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+RUN sed -i 's/git+ssh:\/\/git@/git+https:\/\//g' package-lock.json
 
 RUN npm install
 
