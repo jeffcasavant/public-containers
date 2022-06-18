@@ -14,6 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         image:
+          - maubot-maubot
           - matrix-discord-mx-puppet-discord
           - robintown-mx-puppet-groupme
           - sorunome-mx-puppet-slack
