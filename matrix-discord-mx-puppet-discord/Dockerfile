@@ -15,7 +15,7 @@ RUN git checkout $(cat /version)
 
 ##
 
-FROM node:14-bullseye AS install
+FROM node:16-bullseye AS install
 
 COPY --from=download /app /app
 
@@ -23,10 +23,14 @@ WORKDIR /app
 
 #RUN sed -i 's/git+ssh:\/\/git@/git+https:\/\//g' package-lock.json
 #RUN sed -i 's/Sorunome\/better-discord\.js.*/jeffcasavant\/better-discord.js#cbc7d0754a0c804de61b76aaf218a099a9297c42",/g' package-lock.json
-RUN rm package-lock.json
-RUN sed -i 's/Sorunome\/better-discord\.js.*/jeffcasavant\/better-discord.js#cbc7d0754a0c804de61b76aaf218a099a9297c42",/g' package.json
+#RUN rm package-lock.json
+#RUN sed -i 's/"better-discord.*//' package.json
+
+COPY use-stock-discord.patch update.patch
+RUN git apply update.patch
 
 RUN npm install
+#RUN npm install discord.js
 
 ##
 
