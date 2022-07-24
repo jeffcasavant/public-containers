@@ -15,7 +15,7 @@ RUN git checkout $(cat /version)
 
 ##
 
-FROM node:16-bullseye AS install
+FROM node:14-bullseye AS install
 
 COPY --from=download /app /app
 
