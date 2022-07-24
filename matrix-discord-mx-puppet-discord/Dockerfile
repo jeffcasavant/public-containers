@@ -22,6 +22,7 @@ COPY --from=download /app /app
 WORKDIR /app
 
 RUN sed -i 's/git+ssh:\/\/git@/git+https:\/\//g' package-lock.json
+RUN sed -i 's/Sorunome\/better-discord.js/jeffcasavant\/better-discord.js/g' package-lock.json
 
 RUN npm install
 
