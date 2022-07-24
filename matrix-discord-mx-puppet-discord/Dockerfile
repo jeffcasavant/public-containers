@@ -26,8 +26,8 @@ WORKDIR /app
 #RUN rm package-lock.json
 #RUN sed -i 's/"better-discord.*//' package.json
 
-COPY use-stock-discord.patch update.patch
-RUN git apply update.patch
+COPY patch.patch patch.patch
+RUN git apply patch.patch
 
 RUN npm install
 #RUN npm install discord.js
