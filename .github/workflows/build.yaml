@@ -19,6 +19,7 @@ jobs:
           - robintown-mx-puppet-groupme
           - sorunome-mx-puppet-slack
           - wesr-halcyon-stock-bot
+          - zeratax-matrix-registration
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
