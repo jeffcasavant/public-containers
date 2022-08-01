@@ -1,4 +1,4 @@
-FROM python:3.7-slim-bullseye AS final
+FROM python:3.10-slim-bullseye AS final
 
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
@@ -6,7 +6,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install -U pip setuptools wheel
-RUN pip install pipx alembic
+RUN pip install pipx
 
 COPY version /version
 
