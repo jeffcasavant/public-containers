@@ -26,6 +26,7 @@ RUN apk add --no-cache \
         python3 py3-pip py3-setuptools py3-wheel \
         ca-certificates \
         su-exec \
+        llvm-dev \
         yq \
         py3-aiohttp \
         py3-sqlalchemy \
