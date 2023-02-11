@@ -19,6 +19,7 @@ FROM python:3.10-slim-bullseye AS final
 
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
+    apt-get -y install ffmpeg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
