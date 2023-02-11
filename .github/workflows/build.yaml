@@ -63,7 +63,7 @@ jobs:
             jeffcasavant/${{ matrix.image }}:${{ steps.app-version.outputs.app-version }}
             jeffcasavant/${{ matrix.image }}:${{ steps.app-version.outputs.app-version }}-${{ steps.timestamp.outputs.timestamp }}
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,src=/tmp/.buildx-cache-new
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
       - name: Update cache
         run: |
           rm -rf /tmp/.buildx-cache
