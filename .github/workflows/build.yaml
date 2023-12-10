@@ -15,6 +15,7 @@ jobs:
       matrix:
         image:
           - maubot-maubot
+          - leafac-killthenewsletter
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
