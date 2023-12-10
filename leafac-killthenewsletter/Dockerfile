@@ -23,7 +23,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=download /app /app
+COPY --from=download /app/kill-the-newsletter /app/kill-the-newsletter
 
 WORKDIR /app
 
