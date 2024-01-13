@@ -16,6 +16,7 @@ jobs:
         image:
           - maubot-maubot
           - leafac-killthenewsletter
+          - rsync
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
