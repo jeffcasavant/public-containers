@@ -1,4 +1,4 @@
-FROM alpine as build
+FROM alpine as download
 
 RUN apk add --update-cache \
     curl \
@@ -13,6 +13,17 @@ RUN curl -L https://github.com/ronoaldo/minetools/releases/download/$(cat /versi
 
 RUN unzip /tmp/contentdb.zip
 
-FROM alpine AS final
+###
 
-COPY --from=build /tmp/dist/contentdb /usr/local/bin
+FROM debian:bookworm-slim AS final
+
+RUN apt-get update \
+    && apt-get install -y \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=download /tmp/dist/contentdb /usr/local/bin
+
+RUN chmod +x /usr/local/bin/contentdb
+
+ENTRYPOINT ["/usr/local/bin/contentdb"]
