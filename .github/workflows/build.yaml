@@ -17,6 +17,7 @@ jobs:
           - maubot-maubot
           - leafac-killthenewsletter
           - rsync
+          - minetools
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
