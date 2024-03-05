@@ -26,4 +26,6 @@ COPY --from=download /tmp/dist/contentdb /usr/local/bin
 
 RUN chmod +x /usr/local/bin/contentdb
 
+WORKDIR /
+
 ENTRYPOINT ["/usr/local/bin/contentdb"]
