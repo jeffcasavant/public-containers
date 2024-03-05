@@ -20,6 +20,7 @@ FROM debian:bookworm-slim AS final
 RUN apt-get update \
     && apt-get install -y \
         ca-certificates \
+        curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=download /tmp/dist/contentdb /usr/local/bin
