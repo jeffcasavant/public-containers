@@ -1,9 +1,11 @@
-FROM alpine as download
+FROM debian:bookworm-slim as download
 
-RUN apk add --update-cache \
-    curl \
-    unzip \
-    && rm -rf /var/cache/apk/*
+RUN apt-get update \
+    && apt-get install -y \
+        ca-certificates \
+        curl \
+        unzip \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY version /version
 
@@ -21,6 +23,7 @@ RUN apt-get update \
     && apt-get install -y \
         ca-certificates \
         curl \
+        unzip \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=download /tmp/dist/contentdb /usr/local/bin
