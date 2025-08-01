@@ -73,6 +73,7 @@ RUN apk add --virtual .build-deps python3-dev build-base git \
     && apk del .build-deps
 # TODO also remove dateparser, langdetect and pyquery when maubot supports installing dependencies
 
+RUN mkdir -p /usr/share/nltk_data
 RUN python3 -c 'import nltk; nltk.download("punkt"); nltk.download("punkt_tab"); nltk.download("averaged_perceptron_tagger_eng")'
 
 COPY --from=download /app /opt/maubot
