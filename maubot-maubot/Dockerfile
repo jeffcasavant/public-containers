@@ -63,14 +63,17 @@ RUN apk add --no-cache \
 #        py3-semver@edge
 # TODO remove pillow, magic, feedparser, lxml, gitlab and semver when maubot supports installing dependencies
 
+
 COPY --from=download /app/requirements.txt /opt/maubot/requirements.txt
 COPY --from=download /app/optional-requirements.txt /opt/maubot/optional-requirements.txt
 WORKDIR /opt/maubot
 RUN apk add --virtual .build-deps python3-dev build-base git \
     && pip3 install -r requirements.txt -r optional-requirements.txt \
-        dateparser langdetect python-gitlab pyquery cchardet semver tzlocal cssselect ics \
+        dateparser langdetect python-gitlab pyquery cchardet semver tzlocal cssselect ics nltk \
     && apk del .build-deps
 # TODO also remove dateparser, langdetect and pyquery when maubot supports installing dependencies
+
+RUN python3 -c 'import nltk; nltk.download("punkt"); nltk.download("punkt_tab"); nltk.download("averaged_perceptron_tagger_eng")'
 
 COPY --from=download /app /opt/maubot
 RUN cp maubot/example-config.yaml .
