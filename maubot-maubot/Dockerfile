@@ -68,7 +68,7 @@ COPY --from=download /app/requirements.txt /opt/maubot/requirements.txt
 COPY --from=download /app/optional-requirements.txt /opt/maubot/optional-requirements.txt
 WORKDIR /opt/maubot
 RUN apk add --virtual .build-deps python3-dev build-base git \
-    && pip3 install -r requirements.txt -r optional-requirements.txt \
+    && pip3 install --break-system-packages -r requirements.txt -r optional-requirements.txt \
         dateparser langdetect python-gitlab pyquery cchardet semver tzlocal cssselect ics nltk textblob \
     && apk del .build-deps
 # TODO also remove dateparser, langdetect and pyquery when maubot supports installing dependencies
