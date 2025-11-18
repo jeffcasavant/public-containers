@@ -15,12 +15,12 @@ RUN git checkout $(cat /version)
 
 ##
 
-FROM node:16 AS frontend-builder
+FROM node:24 AS frontend-builder
 
 COPY --from=download /app/maubot/management/frontend /frontend
 RUN cd /frontend && yarn --prod && yarn build
 
-FROM alpine:3.16
+FROM alpine:3.22
 
 RUN apk add --no-cache \
         python3 py3-pip py3-setuptools py3-wheel \
@@ -69,7 +69,7 @@ COPY --from=download /app/optional-requirements.txt /opt/maubot/optional-require
 WORKDIR /opt/maubot
 RUN apk add --virtual .build-deps python3-dev build-base git \
     && pip3 install --break-system-packages -r requirements.txt -r optional-requirements.txt \
-        dateparser langdetect python-gitlab pyquery cchardet semver tzlocal cssselect ics nltk textblob \
+        dateparser langdetect python-gitlab pyquery semver tzlocal cssselect ics nltk textblob \
     && apk del .build-deps
 # TODO also remove dateparser, langdetect and pyquery when maubot supports installing dependencies
 
