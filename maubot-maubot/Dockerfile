@@ -39,11 +39,11 @@ RUN apk add --no-cache \
         py3-packaging \
         py3-markdown \
         py3-alembic \
-#        py3-cssselect \
+        py3-cssselect \
         py3-commonmark \
         py3-pygments \
         py3-tz \
-#        py3-tzlocal \
+        py3-tzlocal \
         py3-regex \
         py3-wcwidth \
         # encryption
@@ -58,9 +58,9 @@ RUN apk add --no-cache \
         py3-magic \
         py3-feedparser \
         py3-dateutil \
-        py3-lxml
-#        py3-gitlab
-#        py3-semver@edge
+        py3-lxml \
+        py3-gitlab \
+        py3-semver@edge
 # TODO remove pillow, magic, feedparser, lxml, gitlab and semver when maubot supports installing dependencies
 
 
