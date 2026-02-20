@@ -67,6 +67,7 @@ COPY --from=download /app/requirements.txt /opt/maubot/requirements.txt
 COPY --from=download /app/optional-requirements.txt /opt/maubot/optional-requirements.txt
 WORKDIR /opt/maubot
 RUN apk add --virtual .build-deps python3-dev build-base git
+RUN pip3 install --break-system-packages --upgrade pip setuptools wheel
 RUN pip3 install --break-system-packages -r requirements.txt -r optional-requirements.txt
 RUN pip3 install --break-system-packages dateparser langdetect python-gitlab pyquery semver tzlocal cssselect ics nltk textblob
 RUN apk del .build-deps
