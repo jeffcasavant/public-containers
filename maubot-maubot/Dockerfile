@@ -59,7 +59,6 @@ RUN apk add --no-cache \
         py3-lxml \
         py3-semver \
         # customizations
-        py3-opencv \
         llvm-dev
 # TODO remove pillow, magic, feedparser, lxml, gitlab and semver when maubot supports installing dependencies
 
@@ -68,6 +67,7 @@ COPY --from=download /app/optional-requirements.txt /opt/maubot/optional-require
 WORKDIR /opt/maubot
 RUN apk add --virtual .build-deps python3-dev build-base git
 RUN pip3 install --break-system-packages --upgrade pip setuptools wheel
+RUN apk add --no-cache py3-opencv
 RUN pip3 install --break-system-packages -r requirements.txt -r optional-requirements.txt
 RUN pip3 install --break-system-packages dateparser langdetect python-gitlab pyquery semver tzlocal cssselect ics nltk textblob
 RUN apk del .build-deps
