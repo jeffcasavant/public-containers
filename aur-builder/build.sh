@@ -5,6 +5,7 @@ PACKAGES_FILE="${PACKAGES_FILE:-/etc/aur-builder/packages/packages.txt}"
 REPO_DIR="${REPO_DIR:-/repo}"
 REPO_NAME="${REPO_NAME:-aurto}"
 SIGNING_KEY="${SIGNING_KEY:-}"
+MIRROR_DIR="${MIRROR_DIR:-}"
 BUILD_USER="makepkg"
 
 # Read package list, skip comments and blank lines
@@ -16,6 +17,13 @@ if [[ ${#PACKAGES[@]} -eq 0 ]]; then
 fi
 
 echo "==> Packages to sync: ${PACKAGES[*]}"
+
+# Use local mirror if available
+if [[ -n "$MIRROR_DIR" && -d "$MIRROR_DIR" ]]; then
+    echo "==> Using local mirror at $MIRROR_DIR"
+    echo "Server = file://$MIRROR_DIR/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+    pacman -Sy
+fi
 
 # Import GPG signing key if provided
 REPO_ADD_SIGN_ARGS=()
