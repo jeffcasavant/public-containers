@@ -18,13 +18,15 @@ fi
 echo "==> Packages to sync: ${PACKAGES[*]}"
 
 # Import GPG signing key if provided
-SIGN_ARGS=()
+REPO_ADD_SIGN_ARGS=()
+SYNC_SIGN_ARGS=()
 if [[ -n "$SIGNING_KEY" && -f "$SIGNING_KEY" ]]; then
     echo "==> Importing GPG signing key"
     sudo -u "$BUILD_USER" gpg --import "$SIGNING_KEY"
     KEY_ID=$(sudo -u "$BUILD_USER" gpg --list-keys --with-colons 2>/dev/null | awk -F: '/^pub/{found=1} found && /^fpr/{print $10; exit}')
     echo "==> Signing with key: $KEY_ID"
-    SIGN_ARGS=(--sign --gpg-sign="$KEY_ID")
+    REPO_ADD_SIGN_ARGS=(--sign --key "$KEY_ID")
+    SYNC_SIGN_ARGS=(--sign --gpg-sign="$KEY_ID")
     # Export public key to repo directory so it's served over HTTP
     sudo -u "$BUILD_USER" gpg --export --armor "$KEY_ID" > "$REPO_DIR/signing-key.pub"
 fi
@@ -32,7 +34,7 @@ fi
 # Initialize repo DB if it doesn't exist
 if [[ ! -f "$REPO_DIR/$REPO_NAME.db.tar" ]]; then
     echo "==> Initializing empty repo database"
-    sudo -u "$BUILD_USER" repo-add "${SIGN_ARGS[@]}" "$REPO_DIR/$REPO_NAME.db.tar"
+    sudo -u "$BUILD_USER" repo-add "${REPO_ADD_SIGN_ARGS[@]}" "$REPO_DIR/$REPO_NAME.db.tar"
 fi
 
 # Configure pacman to know about our local repo so aur sync can check versions
@@ -54,8 +56,8 @@ SYNC_ARGS=(
     --root="$REPO_DIR"
     --nocheck
 )
-if [[ ${#SIGN_ARGS[@]} -gt 0 ]]; then
-    SYNC_ARGS+=("${SIGN_ARGS[@]}")
+if [[ ${#SYNC_SIGN_ARGS[@]} -gt 0 ]]; then
+    SYNC_ARGS+=("${SYNC_SIGN_ARGS[@]}")
 fi
 
 # Run aur sync — builds only packages with newer AUR versions than repo DB
