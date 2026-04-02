@@ -2,7 +2,7 @@ FROM archlinux:latest
 
 # Install official packages (aurutils is AUR-only, built separately below)
 RUN pacman -Syu --noconfirm --needed \
-        base-devel git pacman-contrib sudo && \
+        base-devel git pacman-contrib sudo ninja pcre && \
     useradd -m -s /bin/bash makepkg && \
     echo 'makepkg ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
     mkdir -p /home/makepkg/.gnupg && \
