@@ -28,7 +28,7 @@ if [[ -n "$SIGNING_KEY" && -f "$SIGNING_KEY" ]]; then
     REPO_ADD_SIGN_ARGS=(--sign --key "$KEY_ID")
     SYNC_SIGN_ARGS=(--sign --gpg-sign="$KEY_ID")
     # Export public key to repo directory so it's served over HTTP
-    sudo -u "$BUILD_USER" gpg --export --armor "$KEY_ID" > "$REPO_DIR/signing-key.pub"
+    sudo -u "$BUILD_USER" bash -c "gpg --export --armor '$KEY_ID' > '$REPO_DIR/signing-key.pub'"
 fi
 
 # Initialize repo DB if it doesn't exist
