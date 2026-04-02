@@ -1,9 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-PACKAGES_FILE="${PACKAGES_FILE:-/etc/aur-builder/packages.txt}"
+PACKAGES_FILE="${PACKAGES_FILE:-/etc/aur-builder/packages/packages.txt}"
 REPO_DIR="${REPO_DIR:-/repo}"
 REPO_NAME="${REPO_NAME:-aurto}"
+SIGNING_KEY="${SIGNING_KEY:-}"
 BUILD_USER="makepkg"
 
 # Read package list, skip comments and blank lines
@@ -16,10 +17,20 @@ fi
 
 echo "==> Packages to sync: ${PACKAGES[*]}"
 
+# Import GPG signing key if provided
+SIGN_ARGS=()
+if [[ -n "$SIGNING_KEY" && -f "$SIGNING_KEY" ]]; then
+    echo "==> Importing GPG signing key"
+    sudo -u "$BUILD_USER" gpg --import "$SIGNING_KEY"
+    KEY_ID=$(sudo -u "$BUILD_USER" gpg --list-keys --with-colons 2>/dev/null | awk -F: '/^pub/{found=1} found && /^fpr/{print $10; exit}')
+    echo "==> Signing with key: $KEY_ID"
+    SIGN_ARGS=(--sign --gpg-sign="$KEY_ID")
+fi
+
 # Initialize repo DB if it doesn't exist
 if [[ ! -f "$REPO_DIR/$REPO_NAME.db.tar" ]]; then
     echo "==> Initializing empty repo database"
-    sudo -u "$BUILD_USER" repo-add "$REPO_DIR/$REPO_NAME.db.tar"
+    sudo -u "$BUILD_USER" repo-add "${SIGN_ARGS[@]}" "$REPO_DIR/$REPO_NAME.db.tar"
 fi
 
 # Configure pacman to know about our local repo so aur sync can check versions
@@ -33,20 +44,23 @@ EOF
     pacman -Sy
 fi
 
+# Build aur sync command
+SYNC_ARGS=(
+    --no-view
+    --no-confirm
+    --database="$REPO_NAME"
+    --root="$REPO_DIR"
+    --nocheck
+)
+if [[ ${#SIGN_ARGS[@]} -gt 0 ]]; then
+    SYNC_ARGS+=("${SIGN_ARGS[@]}")
+fi
+
 # Run aur sync — builds only packages with newer AUR versions than repo DB
-# --no-view: don't prompt to inspect PKGBUILDs
-# --no-confirm: don't prompt for confirmation
-# --database: target repo name
-# --root: directory containing the repo DB and packages
-# --nocheck: skip check() to speed up builds
 sudo -u "$BUILD_USER" \
     env AUR_SYNC_USE_NINJA=1 \
     aur sync \
-        --no-view \
-        --no-confirm \
-        --database="$REPO_NAME" \
-        --root="$REPO_DIR" \
-        --nocheck \
+        "${SYNC_ARGS[@]}" \
         "${PACKAGES[@]}" || {
             echo "==> aur sync exited with $?, some packages may have failed"
         }
