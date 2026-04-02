@@ -25,6 +25,8 @@ if [[ -n "$SIGNING_KEY" && -f "$SIGNING_KEY" ]]; then
     KEY_ID=$(sudo -u "$BUILD_USER" gpg --list-keys --with-colons 2>/dev/null | awk -F: '/^pub/{found=1} found && /^fpr/{print $10; exit}')
     echo "==> Signing with key: $KEY_ID"
     SIGN_ARGS=(--sign --gpg-sign="$KEY_ID")
+    # Export public key to repo directory so it's served over HTTP
+    sudo -u "$BUILD_USER" gpg --export --armor "$KEY_ID" > "$REPO_DIR/signing-key.pub"
 fi
 
 # Initialize repo DB if it doesn't exist
