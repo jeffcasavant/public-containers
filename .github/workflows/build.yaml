@@ -19,6 +19,7 @@ jobs:
           - leafac-killthenewsletter
           - rsync
           - minetools
+          - redlib-org-redlib
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
