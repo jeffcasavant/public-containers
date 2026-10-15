@@ -1,9 +1,8 @@
-FROM debian:bullseye AS download
+FROM debian:trixie AS download
 
 MAINTAINER jeff@casavant.org
 
-RUN apt-get update
-RUN apt-get -y install git
+RUN apt-get update && apt-get -y install git
 
 ARG REPO=https://github.com/maubot/maubot.git
 RUN git clone $REPO /app
