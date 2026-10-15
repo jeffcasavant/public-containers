@@ -9,7 +9,7 @@
 # upstream Dockerfile.ubuntu (the known-good build), adapted to this repo's
 # clone-and-checkout-`version` convention.
 
-FROM rust:slim-bookworm AS builder
+FROM rust:slim-trixie AS builder
 
 MAINTAINER jeff@casavant.org
 
@@ -31,7 +31,7 @@ RUN cargo build --release --locked --bin redlib \
 
 ##
 
-FROM ubuntu:noble AS release
+FROM ubuntu:resolute AS release
 
 COPY --from=builder /redlib/target/release/redlib /usr/local/bin/redlib
 
