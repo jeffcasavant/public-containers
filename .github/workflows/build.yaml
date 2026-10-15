@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   container-builder:
     strategy:
@@ -22,32 +26,27 @@ jobs:
           - redlib-org-redlib
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@6eefb174e94bfdeb1cb1caf0a0de19a7634a80d0
-        with:
-          all_but_latest: true
-          access_token: ${{ github.token }}
       - name: Get timestamp
         id: timestamp
-        run: echo "::set-output name=timestamp::$(date +'%Y%m%dT%H%M%S')"
+        run: echo "timestamp=$(date +'%Y%m%dT%H%M%S')" >> "$GITHUB_OUTPUT"
       - name: Check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
       - name: Get app version
         id: app-version
-        run: echo "::set-output name=app-version::$(cat ${{ matrix.image }}/version)"
+        run: echo "app-version=$(cat ${{ matrix.image }}/version)" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v4
       - name: Login to GHCR
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.image }}
           push: true
