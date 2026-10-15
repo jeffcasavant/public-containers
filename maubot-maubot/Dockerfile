@@ -19,7 +19,7 @@ FROM node:24 AS frontend-builder
 COPY --from=download /app/maubot/management/frontend /frontend
 RUN cd /frontend && yarn --prod && yarn build
 
-FROM alpine:3.23
+FROM alpine:3.24
 
 RUN apk add --no-cache \
         python3 py3-pip py3-setuptools py3-wheel \
@@ -49,7 +49,6 @@ RUN apk add --no-cache \
         py3-olm \
         py3-pycryptodome \
         py3-unpaddedbase64 \
-        py3-future \
         # plugin deps
         py3-pillow \
         py3-magic \
