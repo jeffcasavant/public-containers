@@ -33,6 +33,11 @@ RUN cargo build --release --locked --bin redlib \
 
 FROM ubuntu:resolute AS release
 
+# wget backs the HEALTHCHECK below.
+RUN apt-get update \
+    && apt-get -y install wget \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /redlib/target/release/redlib /usr/local/bin/redlib
 
 RUN useradd \
