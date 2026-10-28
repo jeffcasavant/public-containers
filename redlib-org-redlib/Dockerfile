@@ -1,4 +1,8 @@
-# Build redlib from source, tracking the `main` branch (see version).
+# Build redlib from source at the git ref in `version`: normally `main`, or
+# `pr-<N>` to build an upstream pull request's head. While Reddit blocks the
+# comments API (redlib-org/redlib#591), this tracks PR #599, which scrapes
+# comments from Reddit's web frontend instead. Set it back to `main` once
+# upstream merges a fix.
 #
 # Why a custom build instead of quay.io/redlib/redlib:latest? The official
 # prebuilt image went stale (~15 commits behind) and is built with an unset
@@ -24,7 +28,9 @@ WORKDIR /redlib
 # git history, so the .git dir must be present and complete at build time.
 COPY version /version
 RUN git clone "$REPO" . \
-    && git checkout "$(cat /version)"
+    && v="$(cat /version)" \
+    && case "$v" in pr-*) git fetch origin "pull/${v#pr-}/head:$v" ;; esac \
+    && git checkout "$v"
 
 RUN cargo build --release --locked --bin redlib \
     && echo "finished building redlib!"
