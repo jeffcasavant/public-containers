@@ -24,6 +24,7 @@ jobs:
           - rsync
           - minetools
           - redlib-org-redlib
+          - beeper-groupme
     runs-on: ubuntu-latest
     steps:
       - name: Get timestamp
